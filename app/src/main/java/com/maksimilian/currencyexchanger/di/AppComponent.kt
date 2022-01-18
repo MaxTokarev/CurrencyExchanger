@@ -1,13 +1,19 @@
 package com.maksimilian.currencyexchanger.di
 
 import android.app.Application
-import com.maksimilian.currencyexchanger.di.module.AppModule
-import com.maksimilian.currencyexchanger.di.module.DatabaseModule
-import com.maksimilian.currencyexchanger.di.module.NetworkModule
+import com.maksimilian.currencyexchanger.di.module.*
 import dagger.BindsInstance
 import dagger.Component
 
-@Component(modules = [AppModule::class, NetworkModule::class, DatabaseModule::class])
+@Component(
+    modules = [
+        AppModule::class,
+        NetworkModule::class,
+        DatabaseModule::class,
+        RepositoryModule::class,
+        DataSourceModule::class
+    ]
+)
 interface AppComponent {
     @Component.Builder
     interface Builder {

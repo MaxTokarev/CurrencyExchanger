@@ -1,8 +1,8 @@
-package com.maksimilian.currencyexchanger.data.db
+package com.maksimilian.currencyexchanger.data.local.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.maksimilian.currencyexchanger.data.db.entity.CurrencyAccountEntity
+import com.maksimilian.currencyexchanger.data.local.entity.CurrencyAccountEntity
 
 @Database(
     entities = [

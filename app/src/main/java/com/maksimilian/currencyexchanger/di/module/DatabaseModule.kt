@@ -2,7 +2,7 @@ package com.maksimilian.currencyexchanger.di.module
 
 import android.content.Context
 import androidx.room.Room
-import com.maksimilian.currencyexchanger.data.db.AppDatabase
+import com.maksimilian.currencyexchanger.data.local.db.AppDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

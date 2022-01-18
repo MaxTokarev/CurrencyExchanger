@@ -1,7 +1,7 @@
 package com.maksimilian.currencyexchanger.di.module
 
 import com.google.gson.Gson
-import com.maksimilian.currencyexchanger.data.network.CurrencyApiService
+import com.maksimilian.currencyexchanger.data.network.api.CurrencyApiService
 import com.maksimilian.currencyexchanger.data.network.core.AccessKeyInterceptor
 import com.maksimilian.currencyexchanger.data.network.core.ServerSettings
 import dagger.Module

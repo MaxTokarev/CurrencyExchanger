@@ -1,4 +1,4 @@
-package com.maksimilian.currencyexchanger.data.network
+package com.maksimilian.currencyexchanger.data.network.api
 
 import com.maksimilian.currencyexchanger.data.network.model.CurrencyApiResponse
 import io.reactivex.Single
