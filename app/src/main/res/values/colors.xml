@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="blue">#306EDF</color>
+    <color name="yellow">#FFDD00</color>
+
+    <color name="account_background_start_gradient">#252525</color>
+    <color name="account_background_end_gradient">#474747</color>
+    <color name="tab_selected_dot">#306EDF</color>
+    <color name="tab_default_dot">#C3C3C3</color>
 </resources>

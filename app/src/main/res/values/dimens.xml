@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_radius_medium">12dp</dimen>
+
+    <dimen name="space_small">8dp</dimen>
+    <dimen name="space_normal">16dp</dimen>
+    <dimen name="space_big">24dp</dimen>
+
+    <dimen name="font_size_big">32sp</dimen>
+    <dimen name="font_size_medium">16sp</dimen>
+    
+    <dimen name="account_page_offset">16dp</dimen>
+    <dimen name="account_page_margin">24dp</dimen>
+
+    <dimen name="tab_dot_thickness">4dp</dimen>
+    <dimen name="tab_dot_inner_radius">0dp</dimen>
+    <dimen name="tab_inner_margin">2dp</dimen>
+    <dimen name="account_tab_height">24dp</dimen>
+    <dimen name="account_tab_max_width">32dp</dimen>
+    <dimen name="account_tab_min_width">8dp</dimen>
+    <dimen name="account_tab_padding">8dp</dimen>
+</resources>

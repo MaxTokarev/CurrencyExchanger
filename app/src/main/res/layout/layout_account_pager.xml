@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:orientation="horizontal" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/account_tab_height"
+        android:clipToPadding="false"
+        app:tabBackground="@drawable/ic_tab_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp"
+        app:tabMaxWidth="@dimen/account_tab_max_width"
+        app:tabMinWidth="@dimen/account_tab_min_width"
+        app:tabMode="scrollable"
+        app:tabPaddingEnd="@dimen/account_tab_padding"
+        app:tabPaddingStart="@dimen/account_tab_padding" />
+</LinearLayout>
