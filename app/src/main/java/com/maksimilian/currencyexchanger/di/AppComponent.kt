@@ -2,6 +2,7 @@ package com.maksimilian.currencyexchanger.di
 
 import android.app.Application
 import com.maksimilian.currencyexchanger.di.module.*
+import com.maksimilian.currencyexchanger.ui.MainActivity
 import dagger.BindsInstance
 import dagger.Component
 
@@ -15,6 +16,8 @@ import dagger.Component
     ]
 )
 interface AppComponent {
+    fun inject(activity: MainActivity)
+
     @Component.Builder
     interface Builder {
         @BindsInstance

@@ -8,7 +8,7 @@ import com.maksimilian.currencyexchanger.common.extensions.layoutInflater
 import com.maksimilian.currencyexchanger.databinding.ItemAccountBinding
 
 class CardAccountsAdapter :
-    ListAdapter<CardAccountUi, CardAccountsAdapter.ViewHolder>(DiffCallback) {
+    ListAdapter<CurrencyAccountUi, CardAccountsAdapter.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(ItemAccountBinding.inflate(parent.layoutInflater, parent, false))
@@ -19,8 +19,8 @@ class CardAccountsAdapter :
 
     class ViewHolder(private val binding: ItemAccountBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: CardAccountUi) {
-            with(binding){
+        fun bind(item: CurrencyAccountUi) {
+            with(binding) {
                 tvAccountName.text = item.name
                 tvAccountBalance.text = item.balance
             }
@@ -28,16 +28,16 @@ class CardAccountsAdapter :
     }
 
     companion object {
-        private val DiffCallback = object : DiffUtil.ItemCallback<CardAccountUi>() {
-            override fun areItemsTheSame(oldItem: CardAccountUi, newItem: CardAccountUi): Boolean =
-                oldItem.id == newItem.id
+        private val DiffCallback = object : DiffUtil.ItemCallback<CurrencyAccountUi>() {
+            override fun areItemsTheSame(
+                oldItem: CurrencyAccountUi,
+                newItem: CurrencyAccountUi
+            ): Boolean = oldItem.id == newItem.id
 
             override fun areContentsTheSame(
-                oldItem: CardAccountUi,
-                newItem: CardAccountUi
-            ): Boolean {
-                return oldItem == newItem
-            }
+                oldItem: CurrencyAccountUi,
+                newItem: CurrencyAccountUi
+            ): Boolean = oldItem == newItem
         }
     }
 }

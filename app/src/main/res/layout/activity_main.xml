@@ -55,49 +55,62 @@
         android:id="@+id/tvHintExchangeFrom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="From account USD"
+        android:layout_marginTop="@dimen/space_normal"
+        android:textSize="@dimen/font_size_medium"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/etFrom"
         app:layout_constraintStart_toStartOf="@+id/etFrom"
-        app:layout_constraintTop_toBottomOf="@+id/includeToAccount" />
+        app:layout_constraintTop_toBottomOf="@+id/includeToAccount"
+        tools:text="From account USD" />
 
     <EditText
         android:id="@+id/etFrom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/space_small"
+        android:maxLines="1"
         app:layout_constraintEnd_toStartOf="@+id/editText"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@+id/tvHintExchangeFrom" />
+        app:layout_constraintTop_toBottomOf="@+id/tvHintExchangeFrom"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/tvHintExchangeTo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To Account RUB"
+        android:layout_marginTop="@dimen/space_normal"
+        android:textSize="@dimen/font_size_medium"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/editText"
         app:layout_constraintStart_toStartOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/includeToAccount" />
+        app:layout_constraintTop_toBottomOf="@+id/includeToAccount"
+        tools:text="To account RUB" />
 
     <EditText
         android:id="@+id/editText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/space_small"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/etFrom"
-        app:layout_constraintTop_toBottomOf="@+id/tvHintExchangeTo" />
+        app:layout_constraintTop_toBottomOf="@+id/tvHintExchangeTo"
+        android:importantForAutofill="no"
+        android:inputType="numberDecimal" />
 
     <TextView
         android:id="@+id/tvCurrentCurrencyRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_normal"
-        android:text="Exchange from by 12$"
+        android:textSize="@dimen/font_size_medium"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etFrom" />
+        app:layout_constraintTop_toBottomOf="@+id/etFrom"
+        tools:text="Exchange by 123.32$" />
 
     <Button
         android:id="@+id/btnExchange"
