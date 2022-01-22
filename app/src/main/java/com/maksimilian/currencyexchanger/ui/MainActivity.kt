@@ -2,24 +2,27 @@ package com.maksimilian.currencyexchanger.ui
 
 import android.os.Bundle
 import androidx.viewpager2.widget.MarginPageTransformer
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.maksimilian.currencyexchanger.R
 import com.maksimilian.currencyexchanger.common.ui.ObservableSourceActivity
 import com.maksimilian.currencyexchanger.databinding.ActivityMainBinding
 import com.maksimilian.currencyexchanger.databinding.LayoutAccountPagerBinding
 import com.maksimilian.currencyexchanger.di.injector
-import com.maksimilian.currencyexchanger.ui.mvi.*
-import com.maksimilian.currencyexchanger.ui.screens.converter.mvi.ConverterWish
+import com.maksimilian.currencyexchanger.ui.mvi.CurrencyBalancesFeature
+import com.maksimilian.currencyexchanger.ui.mvi.MainViewModel
+import com.maksimilian.currencyexchanger.ui.mvi.NewsListener
+import com.maksimilian.currencyexchanger.ui.mvi.UiEvent
 import io.reactivex.functions.Consumer
 import javax.inject.Inject
 
-class MainActivity : ObservableSourceActivity<ConverterWish>(), Consumer<ConverterState> {
+class MainActivity : ObservableSourceActivity<UiEvent>(), Consumer<MainViewModel> {
 
     private val fromCardAccountsAdapter = CardAccountsAdapter()
     private val toCardAccountsAdapter = CardAccountsAdapter()
 
     @Inject
-    lateinit var reducer: CurrencyReducerFeature
+    lateinit var reducer: CurrencyBalancesFeature
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,11 +31,11 @@ class MainActivity : ObservableSourceActivity<ConverterWish>(), Consumer<Convert
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupUi()
         MainActivityBindings(this, reducer, NewsListener(this)).setup(this)
+        setupUi()
     }
 
-    override fun accept(vm: ConverterState) {
+    override fun accept(vm: MainViewModel) {
         fromCardAccountsAdapter.submitList(vm.fromAccounts)
         toCardAccountsAdapter.submitList(vm.toAccounts)
         with(binding) {
@@ -45,14 +48,22 @@ class MainActivity : ObservableSourceActivity<ConverterWish>(), Consumer<Convert
 
     private fun setupUi() {
         with(binding) {
-            setupViewPager(includeFromAccount, fromCardAccountsAdapter)
-            setupViewPager(includeToAccount, toCardAccountsAdapter)
+            setupViewPager(includeFromAccount, fromCardAccountsAdapter) { position ->
+                UiEvent.FromAccountScrolledTo(position)
+            }
+            setupViewPager(includeToAccount, toCardAccountsAdapter) { position ->
+                UiEvent.ToAccountScrolledTo(position)
+            }
+            btnExchange.setOnClickListener {
+                UiEvent.ExchangeClicked
+            }
         }
     }
 
-    private fun setupViewPager(
+    private inline fun setupViewPager(
         pagerBinding: LayoutAccountPagerBinding,
-        adapter: CardAccountsAdapter
+        adapter: CardAccountsAdapter,
+        crossinline onChangePosition: (position: Int) -> UiEvent
     ) {
         with(pagerBinding) {
             pager.adapter = adapter
@@ -62,8 +73,22 @@ class MainActivity : ObservableSourceActivity<ConverterWish>(), Consumer<Convert
                 )
             )
             TabLayoutMediator(tabLayout, pager) { _, _ ->
-                // Do nothing
+                // do nothing
             }.attach()
+            val onTabListener = object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    tab?.position?.let { position -> onNext(onChangePosition(position)) }
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                    // do nothing
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                    // do nothing
+                }
+            }
+            tabLayout.addOnTabSelectedListener(onTabListener)
         }
     }
 }

@@ -5,6 +5,7 @@ import com.maksimilian.currencyexchanger.di.module.*
 import com.maksimilian.currencyexchanger.ui.MainActivity
 import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Singleton
 
 @Component(
     modules = [
@@ -12,9 +13,11 @@ import dagger.Component
         NetworkModule::class,
         DatabaseModule::class,
         RepositoryModule::class,
-        DataSourceModule::class
+        DataSourceModule::class,
+        UseCaseModule::class
     ]
 )
+@Singleton
 interface AppComponent {
     fun inject(activity: MainActivity)
 

@@ -2,15 +2,15 @@ package com.maksimilian.currencyexchanger.ui.mvi
 
 import android.content.Context
 import android.widget.Toast
-import com.maksimilian.currencyexchanger.ui.screens.converter.mvi.ConverterNews
 import io.reactivex.functions.Consumer
 
 class NewsListener(
     private val context: Context
-) : Consumer<ConverterNews> {
+) : Consumer<CurrencyBalancesFeature.News> {
 
-    override fun accept(news: ConverterNews) {
+    override fun accept(news: CurrencyBalancesFeature.News) {
         when (news) {
+            is CurrencyBalancesFeature.News.Error -> errorHappened(news.throwable)
         }
     }
 

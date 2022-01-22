@@ -7,7 +7,10 @@ import com.maksimilian.currencyexchanger.data.local.entity.CurrencyAccountEntity
 @Entity(tableName = TABLE_NAME)
 class CurrencyAccountEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0
+    val id: Int = 0,
+    val balance: Double,
+    val name: String,
+    val symbol: String
 ) {
     companion object {
         const val TABLE_NAME = "currency_account"
