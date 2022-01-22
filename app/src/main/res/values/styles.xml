@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.CurrencyExchanger.EditText">
+        <item name="android:textAlignment">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">@dimen/font_size_medium</item>
+        <item name="android:inputType">numberDecimal</item>
+    </style>
+</resources>

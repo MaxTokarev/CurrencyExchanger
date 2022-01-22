@@ -1,6 +1,7 @@
 package com.maksimilian.currencyexchanger.ui
 
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -43,6 +44,8 @@ class MainActivity : ObservableSourceActivity<UiEvent>(), Consumer<MainViewModel
                 getString(R.string.ph_from_account_exchange, vm.fromCurrencyName)
             tvHintExchangeTo.text = getString(R.string.ph_to_account_exchange, vm.toCurrencyName)
             tvCurrentCurrencyRate.text = getString(R.string.ph_exchange_by, vm.currencyRate)
+            pbLoadingAccounts.isVisible = vm.isAccountsLoading
+            pbLoadingExchange.isVisible = vm.isExchangeLoading
         }
     }
 
