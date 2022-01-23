@@ -13,7 +13,8 @@ class CurrencyAccountMapperLocalToData @Inject constructor() :
             id = data.id,
             name = data.name,
             balance = data.balance,
-            symbol = data.symbol
+            symbol = data.symbol,
+            shortName = data.shortName
         )
 }
 
@@ -23,7 +24,8 @@ class CurrencyAccountMapperDataToLocal @Inject constructor() :
         CurrencyAccountEntity(
             balance = data.balance,
             name = data.name,
-            symbol = data.symbol
+            symbol = data.symbol,
+            shortName = data.shortName
         )
 }
 
@@ -33,6 +35,7 @@ class CurrencyAccountMappersDataToDomain @Inject constructor() :
         id = data.id,
         name = data.name,
         balance = data.balance,
-        symbol = data.symbol
+        symbol = data.symbol,
+        shortName = data.shortName
     )
 }

@@ -30,7 +30,7 @@ class CurrencyBalancesFeature @Inject constructor(
     sealed class Effect {
         object StartLoading : Effect()
         class LoadedAccounts(val accounts: List<CurrencyAccountUi>) : Effect()
-        class UpdateAccountsPosition(val fromAccount: Int = 0, val toAccount: Int = 1) : Effect()
+        class UpdateAccountsPosition(val fromAccount: Int, val toAccount: Int) : Effect()
         class ErrorLoading(val throwable: Throwable) : Effect()
     }
 
@@ -46,15 +46,13 @@ class CurrencyBalancesFeature @Inject constructor(
         val accounts: List<CurrencyAccountUi> = emptyList(),
         val fromAccountPosition: Int = 0,
         val toAccountPosition: Int = 1,
-
-        val fromCurrencyName: String = "",
-        val toCurrencyName: String = "",
     )
 
     sealed class Wish {
         class FromAccountUpdate(val position: Int) : Wish()
         class ToAccountUpdate(val position: Int) : Wish()
         class UpdatedUserAccounts(val accounts: List<CurrencyAccount>) : Wish()
+        class Error(val throwable: Throwable) : Wish()
     }
 
     private class NewsPublisherImpl :
@@ -78,26 +76,23 @@ class CurrencyBalancesFeature @Inject constructor(
                 .map { CurrencyAccountMapperDomainToUi().mapList(it) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { Effect.LoadedAccounts(it) }
-                .doOnError { it.printStackTrace() }
             is Wish.FromAccountUpdate -> {
-                val fromPosition = if (state.toAccountPosition == wish.position)
-                    wish.position + 1
-                else
-                    wish.position
+                val fromPosition = calculatePosition(state.toAccountPosition, wish.position)
                 Observable.just(
                     Effect.UpdateAccountsPosition(fromPosition, state.toAccountPosition)
                 )
             }
             is Wish.ToAccountUpdate -> {
-                val toPosition = if (state.fromAccountPosition == wish.position)
-                    wish.position + 1
-                else
-                    wish.position
+                val toPosition = calculatePosition(state.fromAccountPosition, wish.position)
                 Observable.just(
                     Effect.UpdateAccountsPosition(state.fromAccountPosition, toPosition)
                 )
             }
+            is Wish.Error -> Observable.just(Effect.ErrorLoading(wish.throwable))
         }
+
+        private fun calculatePosition(oppositePosition: Int, newPosition: Int) =
+            if (oppositePosition == newPosition) newPosition + 1 else newPosition
     }
 
     private class ReducerImpl : Reducer<State, Effect> {
@@ -131,8 +126,9 @@ class CurrencyBalancesFeature @Inject constructor(
             return fetchIfRequireUserAccountsUseCase()
                 .andThen(observeUserAccountsUseCase())
                 .subscribeOn(Schedulers.io())
-                .doOnError { it.printStackTrace() }
-                .map { Wish.UpdatedUserAccounts(it) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .map<Wish> { Wish.UpdatedUserAccounts(it) }
+                .onErrorReturn { Wish.Error(it) }
         }
     }
 }

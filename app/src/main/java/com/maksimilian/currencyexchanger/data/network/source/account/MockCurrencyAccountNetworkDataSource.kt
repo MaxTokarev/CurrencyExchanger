@@ -13,13 +13,14 @@ class MockCurrencyAccountNetworkDataSource @Inject constructor() :
     CurrencyAccountNetworkDataSource {
     override fun fetchUserAccounts(): Single<List<CurrencyAccountData>> {
         val accounts = AccountCurrency.values()
-            .mapIndexed { index, accountSymbol ->
-                val currency = Currency.getInstance(accountSymbol.symbol)
+            .mapIndexed { index, account ->
+                val currency = Currency.getInstance(account.code)
                 CurrencyAccountData(
                     id = index,
                     name = currency.displayName,
                     balance = INITIAL_BALANCE,
-                    symbol = currency.symbol
+                    symbol = currency.symbol,
+                    shortName = account.code
                 )
             }
         return Single.just(accounts)

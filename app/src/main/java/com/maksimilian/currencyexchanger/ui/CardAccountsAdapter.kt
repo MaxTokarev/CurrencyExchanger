@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.maksimilian.currencyexchanger.R
 import com.maksimilian.currencyexchanger.common.extensions.layoutInflater
 import com.maksimilian.currencyexchanger.databinding.ItemAccountBinding
 
@@ -21,7 +22,7 @@ class CardAccountsAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: CurrencyAccountUi) {
             with(binding) {
-                tvAccountName.text = item.name
+                tvAccountName.text = root.context.getString(R.string.ph_account_name, item.name)
                 tvAccountBalance.text = item.balance
             }
         }

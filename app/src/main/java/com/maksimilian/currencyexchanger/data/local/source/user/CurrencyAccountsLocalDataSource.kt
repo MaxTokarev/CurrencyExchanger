@@ -7,6 +7,14 @@ import io.reactivex.Single
 
 interface CurrencyAccountsLocalDataSource {
     fun getAllAccounts(): Single<List<CurrencyAccountData>>
+
+    /**
+     * If database have accounts then they updates otherwise they will be inserted
+     */
     fun upInsertAccounts(accounts: List<CurrencyAccountData>): Completable
+
+    /**
+     * Observes user accounts
+     */
     fun observeAccounts(): Observable<List<CurrencyAccountData>>
 }

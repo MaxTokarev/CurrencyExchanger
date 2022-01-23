@@ -10,7 +10,8 @@ class CurrencyAccountEntity(
     val id: Int = 0,
     val balance: Double,
     val name: String,
-    val symbol: String
+    val symbol: String,
+    val shortName: String
 ) {
     companion object {
         const val TABLE_NAME = "currency_account"

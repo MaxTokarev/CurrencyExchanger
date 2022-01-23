@@ -15,6 +15,6 @@ class NewsListener(
     }
 
     fun errorHappened(throwable: Throwable) {
-        Toast.makeText(context, "Simulated error was triggered", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Error - ${throwable.message}", Toast.LENGTH_SHORT).show()
     }
 }

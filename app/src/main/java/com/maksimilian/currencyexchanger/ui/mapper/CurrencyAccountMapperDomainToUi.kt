@@ -8,8 +8,10 @@ class CurrencyAccountMapperDomainToUi : Mapper<CurrencyAccount, CurrencyAccountU
     override fun map(data: CurrencyAccount): CurrencyAccountUi {
         return CurrencyAccountUi(
             id = data.id,
-            name = data.name + data.symbol,
-            balance = data.balance.toString()
+            name = data.name,
+            balance = data.balance.toString(),
+            symbol = data.symbol,
+            shortName = data.shortName
         )
     }
 }

@@ -7,5 +7,6 @@ class CurrencyAccountData(
     val id: Int,
     val name: String,
     val balance: Double,
-    val symbol: String
+    val symbol: String,
+    val shortName: String
 )

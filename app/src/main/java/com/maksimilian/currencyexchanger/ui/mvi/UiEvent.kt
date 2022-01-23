@@ -4,6 +4,8 @@ sealed class UiEvent {
     class FromAccountScrolledTo(val position: Int) : UiEvent()
     class ToAccountScrolledTo(val position: Int) : UiEvent()
     object ExchangeClicked : UiEvent()
+    class FromAccountTextEntered(val text: String) : UiEvent()
+    class ToAccountTextEntered(val text: String) : UiEvent()
 }
 
 class UiEventTransformer : (UiEvent) -> CurrencyBalancesFeature.Wish? {

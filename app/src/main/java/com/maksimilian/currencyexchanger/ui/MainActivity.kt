@@ -1,7 +1,9 @@
 package com.maksimilian.currencyexchanger.ui
 
 import android.os.Bundle
+import android.widget.EditText
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -41,11 +43,18 @@ class MainActivity : ObservableSourceActivity<UiEvent>(), Consumer<MainViewModel
         toCardAccountsAdapter.submitList(vm.toAccounts)
         with(binding) {
             tvHintExchangeFrom.text =
-                getString(R.string.ph_from_account_exchange, vm.fromCurrencyName)
-            tvHintExchangeTo.text = getString(R.string.ph_to_account_exchange, vm.toCurrencyName)
+                getString(R.string.ph_from_account_exchange, vm.fromCurrencyShortName)
+            tvHintExchangeTo.text =
+                getString(R.string.ph_to_account_exchange, vm.toCurrencyShortName)
             tvCurrentCurrencyRate.text = getString(R.string.ph_exchange_by, vm.currencyRate)
             pbLoadingAccounts.isVisible = vm.isAccountsLoading
             pbLoadingExchange.isVisible = vm.isExchangeLoading
+            etFromAccount.addTextChangedListener {
+                onNext(UiEvent.FromAccountTextEntered(it.toString()))
+            }
+            etToAccount.addTextChangedListener {
+                onNext(UiEvent.ToAccountTextEntered(it.toString()))
+            }
         }
     }
 
@@ -60,6 +69,15 @@ class MainActivity : ObservableSourceActivity<UiEvent>(), Consumer<MainViewModel
             btnExchange.setOnClickListener {
                 UiEvent.ExchangeClicked
             }
+        }
+    }
+
+    private inline fun setupEt(
+        et: EditText,
+        crossinline onTextChanged: (String) -> Unit
+    ) {
+        with(et) {
+            addTextChangedListener { onTextChanged(it.toString()) }
         }
     }
 

@@ -3,7 +3,8 @@
     <string name="txt_exchange">Exchange</string>
     <string name="app_title">Currency Exchanger</string>
 
-    <string name="ph_from_account_exchange"><b>From account</b> %1$s</string>
-    <string name="ph_to_account_exchange"><b>To account</b> %1$s</string>
+    <string name="ph_from_account_exchange">From account %1$s</string>
+    <string name="ph_to_account_exchange">To account %1$s</string>
     <string name="ph_exchange_by">Exchange by %.2f%n</string>
+    <string name="ph_account_name">Account - %1$s</string>
 </resources>
