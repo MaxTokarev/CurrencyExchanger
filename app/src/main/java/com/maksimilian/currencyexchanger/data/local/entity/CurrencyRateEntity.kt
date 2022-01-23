@@ -1,11 +1,7 @@
 package com.maksimilian.currencyexchanger.data.local.entity
 
 import androidx.room.*
-import androidx.room.ForeignKey.CASCADE
-import com.maksimilian.currencyexchanger.data.local.entity.CurrencyAccountEntity.Companion.TABLE_NAME
-
-const val CURRENCY_ID = "currencyId"
-const val ID = "id"
+import com.maksimilian.currencyexchanger.data.local.entity.CurrencyRateEntity.Companion.TABLE_NAME
 
 @Entity(
     tableName = TABLE_NAME,
@@ -14,25 +10,25 @@ const val ID = "id"
             entity = CurrencyEntity::class,
             parentColumns = [ID],
             childColumns = [CURRENCY_ID],
-            onDelete = CASCADE
+            onDelete = ForeignKey.CASCADE
         )
     ]
 )
-class CurrencyAccountEntity(
+class CurrencyRateEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val balance: Double,
     @ColumnInfo(index = true)
-    val currencyId: Int
+    val currencyId: Int,
+    val rate: Double
 ) {
     companion object {
-        const val TABLE_NAME = "currencyAccount"
+        const val TABLE_NAME = "currencyRate"
     }
 }
 
-class CurrencyAccountEntityJoin(
+class CurrencyRateEntityJoin(
     @Embedded
-    val account: CurrencyAccountEntity,
+    val rate: CurrencyRateEntity,
     @Relation(entity = CurrencyEntity::class, parentColumn = CURRENCY_ID, entityColumn = ID)
     val currency: CurrencyEntity
 )

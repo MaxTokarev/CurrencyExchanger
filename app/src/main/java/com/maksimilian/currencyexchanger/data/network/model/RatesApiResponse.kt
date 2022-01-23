@@ -4,9 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 class RatesApiResponse(
     @SerializedName("EUR")
-    val euroRate: Double,
+    val euro: Double,
     @SerializedName("USD")
-    val usdRate: Double,
+    val usd: Double,
     @SerializedName("GBP")
-    val gbpRate: Double
+    val gbp: Double,
+    @SerializedName("RUB")
+    val rub: Double
 )

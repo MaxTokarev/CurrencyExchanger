@@ -1,10 +1,10 @@
 package com.maksimilian.currencyexchanger.data.network.api
 
-import com.maksimilian.currencyexchanger.data.network.model.CurrencyApiResponse
+import com.maksimilian.currencyexchanger.data.network.model.CurrencyRateApiResponse
 import io.reactivex.Single
 import retrofit2.http.GET
 
 interface CurrencyApiService {
-    @GET("") // TODO: 17.01.2022 Finish this up
-    fun fetchLatestCurrency(): Single<CurrencyApiResponse>
+    @GET("latest/")
+    fun fetchLatestCurrency(): Single<CurrencyRateApiResponse>
 }

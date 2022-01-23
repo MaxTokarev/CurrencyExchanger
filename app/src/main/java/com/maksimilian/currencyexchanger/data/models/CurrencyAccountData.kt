@@ -5,8 +5,6 @@ package com.maksimilian.currencyexchanger.data.models
  */
 class CurrencyAccountData(
     val id: Int,
-    val name: String,
+    val currency: CurrencyData,
     val balance: Double,
-    val symbol: String,
-    val shortName: String
 )
