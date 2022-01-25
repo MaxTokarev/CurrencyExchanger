@@ -1,10 +1,11 @@
 package com.maksimilian.currencyexchanger.ui
 
 import android.os.Bundle
-import android.widget.EditText
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.viewpager2.widget.MarginPageTransformer
+import com.badoo.mvicore.byValue
+import com.badoo.mvicore.modelWatcher
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.maksimilian.currencyexchanger.R
@@ -12,10 +13,7 @@ import com.maksimilian.currencyexchanger.common.ui.ObservableSourceActivity
 import com.maksimilian.currencyexchanger.databinding.ActivityMainBinding
 import com.maksimilian.currencyexchanger.databinding.LayoutAccountPagerBinding
 import com.maksimilian.currencyexchanger.di.injector
-import com.maksimilian.currencyexchanger.ui.mvi.CurrencyBalancesFeature
-import com.maksimilian.currencyexchanger.ui.mvi.MainViewModel
-import com.maksimilian.currencyexchanger.ui.mvi.NewsListener
-import com.maksimilian.currencyexchanger.ui.mvi.UiEvent
+import com.maksimilian.currencyexchanger.ui.mvi.*
 import io.reactivex.functions.Consumer
 import javax.inject.Inject
 
@@ -25,8 +23,17 @@ class MainActivity : ObservableSourceActivity<UiEvent>(), Consumer<MainViewModel
     private val toCardAccountsAdapter = CardAccountsAdapter()
 
     @Inject
-    lateinit var reducer: CurrencyBalancesFeature
+    lateinit var currencyFeature: CurrencyBalancesFeature
+
+    @Inject
+    lateinit var exchangeFeature: ExchangeFeature
     private lateinit var binding: ActivityMainBinding
+
+    private val watcher = modelWatcher<MainViewModel> {
+        watch(MainViewModel::toAccountCount, byValue()) {
+            binding.etToAccount.setText(it)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,27 +41,22 @@ class MainActivity : ObservableSourceActivity<UiEvent>(), Consumer<MainViewModel
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        MainActivityBindings(this, reducer, NewsListener(this)).setup(this)
+        MainActivityBindings(this, currencyFeature, exchangeFeature, NewsListener(this)).setup(this)
         setupUi()
     }
 
     override fun accept(vm: MainViewModel) {
-        fromCardAccountsAdapter.submitList(vm.fromAccounts)
-        toCardAccountsAdapter.submitList(vm.toAccounts)
+        watcher.invoke(vm)
+        fromCardAccountsAdapter.submitList(vm.accounts)
+        toCardAccountsAdapter.submitList(vm.accounts)
         with(binding) {
             tvHintExchangeFrom.text =
-                getString(R.string.ph_from_account_exchange, vm.fromCurrencyShortName)
+                getString(R.string.ph_from_account_exchange, vm.currentFromAccount?.shortName)
             tvHintExchangeTo.text =
-                getString(R.string.ph_to_account_exchange, vm.toCurrencyShortName)
+                getString(R.string.ph_to_account_exchange, vm.currentToAccount?.shortName)
             tvCurrentCurrencyRate.text = getString(R.string.ph_exchange_by, vm.currencyRate)
             pbLoadingAccounts.isVisible = vm.isAccountsLoading
             pbLoadingExchange.isVisible = vm.isExchangeLoading
-            etFromAccount.addTextChangedListener {
-                onNext(UiEvent.FromAccountTextEntered(it.toString()))
-            }
-            etToAccount.addTextChangedListener {
-                onNext(UiEvent.ToAccountTextEntered(it.toString()))
-            }
         }
     }
 
@@ -66,18 +68,15 @@ class MainActivity : ObservableSourceActivity<UiEvent>(), Consumer<MainViewModel
             setupViewPager(includeToAccount, toCardAccountsAdapter) { position ->
                 UiEvent.ToAccountScrolledTo(position)
             }
+            etFromAccount.addTextChangedListener {
+                onNext(UiEvent.FromAccountTextEntered(it.toString()))
+            }
+            etToAccount.addTextChangedListener {
+                onNext(UiEvent.ToAccountTextEntered(it.toString()))
+            }
             btnExchange.setOnClickListener {
                 UiEvent.ExchangeClicked
             }
-        }
-    }
-
-    private inline fun setupEt(
-        et: EditText,
-        crossinline onTextChanged: (String) -> Unit
-    ) {
-        with(et) {
-            addTextChangedListener { onTextChanged(it.toString()) }
         }
     }
 

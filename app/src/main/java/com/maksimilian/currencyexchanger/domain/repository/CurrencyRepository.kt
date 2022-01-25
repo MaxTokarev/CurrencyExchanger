@@ -8,5 +8,6 @@ import io.reactivex.Single
 interface CurrencyRepository {
     fun getCurrencies(): Single<List<CurrencyData>>
 
+    fun fetchCurrencyRates(): Single<CurrencyRatesData>
     fun observeCurrencyRates(): Observable<CurrencyRatesData>
 }

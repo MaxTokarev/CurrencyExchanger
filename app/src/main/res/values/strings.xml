@@ -7,4 +7,6 @@
     <string name="ph_to_account_exchange">To account %1$s</string>
     <string name="ph_exchange_by">Exchange by %.2f%n</string>
     <string name="ph_account_name">Account - %1$s</string>
+    <string name="err_input_is_empty">Input is empty</string>
+    <string name="err_input_invalid">Input is invalid</string>
 </resources>

@@ -20,6 +20,12 @@ class CurrencyRepositoryImpl @Inject constructor(
                 else Single.just(localCurrencies)
             }
 
+    override fun fetchCurrencyRates(): Single<CurrencyRatesData> {
+        return getCurrencies()
+            .flatMap { networkDataSource.fetchCurrencyRates(it) }
+            .flatMap { localDataSource.upInsertCurrencyRates(it).andThen(Single.just(it)) }
+    }
+
     override fun observeCurrencyRates(): Observable<CurrencyRatesData> =
         localDataSource.observeCurrencyRates()
 

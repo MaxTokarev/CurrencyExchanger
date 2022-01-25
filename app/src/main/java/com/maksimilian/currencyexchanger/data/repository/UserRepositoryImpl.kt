@@ -9,6 +9,7 @@ import com.maksimilian.currencyexchanger.domain.model.CurrencyAccount
 import com.maksimilian.currencyexchanger.domain.repository.UserRepository
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -17,13 +18,16 @@ class UserRepositoryImpl @Inject constructor(
     private val mappersDataToDomain: CurrencyAccountMappersDataToDomain
 ) : UserRepository {
     override fun fetchIfRequireAccounts(currencies: List<CurrencyData>): Completable =
-        localDataSource.getAllAccounts()
+        getAllAccounts()
             .flatMapCompletable { accounts ->
                 if (accounts.isEmpty()) fetchUsersAndInsert(currencies) else Completable.complete()
             }
 
     override fun observeAccounts(): Observable<List<CurrencyAccount>> =
         localDataSource.observeAccounts().map { mappersDataToDomain.mapList(it) }
+
+    override fun getAllAccounts(): Single<List<CurrencyAccount>> =
+        localDataSource.getAllAccounts().map { mappersDataToDomain.mapList(it) }
 
     private fun fetchUsersAndInsert(currencies: List<CurrencyData>): Completable =
         networkDataSource.fetchUserAccountsFor(currencies)

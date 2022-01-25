@@ -5,6 +5,6 @@ import io.reactivex.Single
 import retrofit2.http.GET
 
 interface CurrencyApiService {
-    @GET("latest/")
+    @GET("latest")
     fun fetchLatestCurrency(): Single<CurrencyRateApiResponse>
 }

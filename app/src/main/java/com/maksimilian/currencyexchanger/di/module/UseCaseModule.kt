@@ -1,5 +1,7 @@
 package com.maksimilian.currencyexchanger.di.module
 
+import com.maksimilian.currencyexchanger.domain.usecase.ObserveCurrencyRatesUseCase
+import com.maksimilian.currencyexchanger.domain.usecase.account.GetAccountByIdUseCase
 import com.maksimilian.currencyexchanger.domain.usecase.account.fetch.FetchIfRequireUserAccountsUseCase
 import com.maksimilian.currencyexchanger.domain.usecase.account.fetch.FetchIfRequireUserAccountsUseCaseImpl
 import com.maksimilian.currencyexchanger.domain.usecase.account.observe.ObserveUserAccountsUseCase
@@ -19,4 +21,14 @@ interface UseCaseModule {
     fun bindFetchUserAccount(
         impl: FetchIfRequireUserAccountsUseCaseImpl
     ): FetchIfRequireUserAccountsUseCase
+
+    @Binds
+    fun bindGetUserAccount(
+        impl: GetAccountByIdUseCase.Base
+    ): GetAccountByIdUseCase
+
+    @Binds
+    fun bindObserveCurrencyRatesUseCase(
+        impl: ObserveCurrencyRatesUseCase.Base
+    ): ObserveCurrencyRatesUseCase
 }

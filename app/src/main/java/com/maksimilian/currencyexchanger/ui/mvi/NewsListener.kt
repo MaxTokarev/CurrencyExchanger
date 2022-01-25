@@ -14,7 +14,7 @@ class NewsListener(
         }
     }
 
-    fun errorHappened(throwable: Throwable) {
+    private fun errorHappened(throwable: Throwable) {
         Toast.makeText(context, "Error - ${throwable.message}", Toast.LENGTH_SHORT).show()
     }
 }

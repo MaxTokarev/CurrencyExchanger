@@ -1,6 +1,7 @@
 package com.maksimilian.currencyexchanger.data.mappers
 
 import com.maksimilian.currencyexchanger.common.Mapper
+import com.maksimilian.currencyexchanger.common.mapList
 import com.maksimilian.currencyexchanger.data.local.entity.CurrencyRateEntity
 import com.maksimilian.currencyexchanger.data.local.entity.CurrencyRateEntityJoin
 import com.maksimilian.currencyexchanger.data.local.entity.CurrencyRatesEntity
@@ -12,6 +13,9 @@ import com.maksimilian.currencyexchanger.data.network.model.CurrencyRatesData
 import com.maksimilian.currencyexchanger.data.network.source.account.AccountCurrency
 import com.maksimilian.currencyexchanger.data.network.source.account.AccountCurrency.*
 import com.maksimilian.currencyexchanger.data.network.source.account.AccountCurrency.Companion.id
+import com.maksimilian.currencyexchanger.domain.model.CurrencyRate
+import com.maksimilian.currencyexchanger.domain.model.CurrencyRates
+import kotlinx.datetime.Instant
 import javax.inject.Inject
 
 class CurrencyRatesMapperApiToData @Inject constructor() :
@@ -73,5 +77,28 @@ class CurrencyRateMapper @Inject constructor(
 ) : Mapper<CurrencyRateEntityJoin, CurrencyRateData> {
     override fun map(data: CurrencyRateEntityJoin): CurrencyRateData {
         return CurrencyRateData(currency = currencyMapper.map(data.currency), rate = data.rate.rate)
+    }
+}
+
+class CurrencyRatesMapperDataToDomain @Inject constructor(
+    private val currencyMapper: CurrencyMapperDataToDomain,
+    private val currencyRateMapper: CurrencyRateMapperDataToDomain
+) : Mapper<CurrencyRatesData, CurrencyRates> {
+    override fun map(data: CurrencyRatesData): CurrencyRates {
+        return CurrencyRates(
+            lastSyncTime = Instant.fromEpochMilliseconds(data.lastSyncTimestamp),
+            baseCurrency = currencyMapper.map(data.base),
+            rates = currencyRateMapper.mapList(data.rates)
+        )
+    }
+}
+
+class CurrencyRateMapperDataToDomain @Inject constructor(
+    private val currencyMapper: CurrencyMapperDataToDomain
+) : Mapper<CurrencyRateData, CurrencyRate> {
+    override fun map(data: CurrencyRateData): CurrencyRate {
+        return CurrencyRate(
+            currency = currencyMapper.map(data.currency), rate = data.rate
+        )
     }
 }

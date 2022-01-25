@@ -1,27 +1,37 @@
 package com.maksimilian.currencyexchanger.ui.mvi
 
 import com.maksimilian.currencyexchanger.ui.CurrencyAccountUi
+import kotlin.math.round
 
 class MainViewModel(
-    val isAccountsLoading: Boolean = false,
-    val fromAccounts: List<CurrencyAccountUi> = emptyList(),
-    val toAccounts: List<CurrencyAccountUi> = emptyList(),
-    val fromCurrencyShortName: String = "",
-    val toCurrencyShortName: String = "",
-    val currencyRate: Double = 0.0,
+    val isAccountsLoading: Boolean,
+    val currentFromAccount: CurrencyAccountUi?,
+    val currentToAccount: CurrencyAccountUi?,
+    val currencyRate: Double,
+    val fromAccountCount: String,
+    val toAccountCount: String,
     val isExchangeLoading: Boolean,
+    val accounts: List<CurrencyAccountUi>,
 )
 
-class ViewModelTransformer : (CurrencyBalancesFeature.State) -> MainViewModel {
-    override fun invoke(state: CurrencyBalancesFeature.State): MainViewModel {
+class ViewModelTransformer :
+        (Pair<CurrencyBalancesFeature.State, ExchangeFeature.State>) -> MainViewModel {
+    override fun invoke(pair: Pair<CurrencyBalancesFeature.State, ExchangeFeature.State>): MainViewModel {
+        val (currencyState, exchangeState) = pair
         return MainViewModel(
-            isAccountsLoading = state.isLoading,
-            fromAccounts = state.fromAccounts,
-            toAccounts = state.toAccounts,
-            isExchangeLoading = false,
-            currencyRate = 0.0,
-            toCurrencyShortName = state.accounts.getOrNull(state.toAccountPosition)?.shortName ?: "",
-            fromCurrencyShortName = state.accounts.getOrNull(state.fromAccountPosition)?.shortName ?: ""
+            isAccountsLoading = currencyState.isLoading,
+            accounts = currencyState.accounts,
+            isExchangeLoading = exchangeState.isLoading,
+            currencyRate = currencyState.currentRate,
+            currentToAccount = currencyState.accounts.getOrNull(currencyState.toAccountPosition),
+            currentFromAccount = currencyState.accounts.getOrNull(currencyState.fromAccountPosition),
+            fromAccountCount = if (currencyState.fromAccountCount == 0.0) "" else currencyState.fromAccountCount.round(2).toString(),
+            toAccountCount =  if (currencyState.toAccountCount == 0.0) "" else currencyState.toAccountCount.round(2).toString()
         )
+    }
+    fun Double.round(decimals: Int): Double {
+        var multiplier = 1.0
+        repeat(decimals) { multiplier *= 10 }
+        return round(this * multiplier) / multiplier
     }
 }
