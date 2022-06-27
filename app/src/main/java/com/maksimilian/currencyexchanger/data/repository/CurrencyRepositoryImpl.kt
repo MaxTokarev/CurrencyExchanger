@@ -5,6 +5,7 @@ import com.maksimilian.currencyexchanger.data.models.CurrencyData
 import com.maksimilian.currencyexchanger.data.network.model.CurrencyRatesData
 import com.maksimilian.currencyexchanger.data.network.source.CurrencyNetworkDataSource
 import com.maksimilian.currencyexchanger.domain.repository.CurrencyRepository
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject

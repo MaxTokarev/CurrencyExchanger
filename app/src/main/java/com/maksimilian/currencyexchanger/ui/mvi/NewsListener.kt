@@ -2,6 +2,7 @@ package com.maksimilian.currencyexchanger.ui.mvi
 
 import android.content.Context
 import android.widget.Toast
+import com.maksimilian.currencyexchanger.R
 import io.reactivex.functions.Consumer
 
 class NewsListener(
@@ -11,6 +12,11 @@ class NewsListener(
     override fun accept(news: CurrencyBalancesFeature.News) {
         when (news) {
             is CurrencyBalancesFeature.News.Error -> errorHappened(news.throwable)
+            CurrencyBalancesFeature.News.SuccessExchange -> Toast.makeText(
+                context,
+                context.getString(R.string.successful_exchange),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

@@ -1,6 +1,10 @@
 package com.maksimilian.currencyexchanger.data.local.entity
 
-import androidx.room.*
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
+import androidx.room.Relation
 import com.maksimilian.currencyexchanger.data.local.entity.CurrencyRatesEntity.Companion.TABLE_NAME
 
 const val BASE_CURRENCY_ID = "baseCurrencyId"

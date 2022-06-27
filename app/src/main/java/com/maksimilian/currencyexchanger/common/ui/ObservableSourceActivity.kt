@@ -5,7 +5,7 @@ import io.reactivex.ObservableSource
 import io.reactivex.Observer
 import io.reactivex.subjects.PublishSubject
 
-abstract class ObservableSourceActivity<T> : ComponentActivity(), ObservableSource<T> {
+abstract class ObservableSourceActivity<T : Any> : ComponentActivity(), ObservableSource<T> {
 
     private val source = PublishSubject.create<T>()
 

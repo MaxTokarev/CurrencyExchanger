@@ -5,18 +5,16 @@ import com.maksimilian.currencyexchanger.domain.repository.UserRepository
 import io.reactivex.Single
 import javax.inject.Inject
 
-interface GetAccountByIdUseCase {
-    operator fun invoke(id: Int): Single<CurrencyAccount>
+interface GetAccountByIdUseCase: (Int) -> Single<CurrencyAccount>
 
-    class Base @Inject constructor(
-        private val userRepository: UserRepository
-    ) : GetAccountByIdUseCase {
-        override fun invoke(id: Int): Single<CurrencyAccount> =
-            userRepository.getAllAccounts()
-                .map { accounts ->
-                    requireNotNull(accounts.firstOrNull { account -> account.id == id }) {
-                        "Cannot find account by given id - $id"
-                    }
+class GetAccountByIdUseCaseImpl @Inject constructor(
+    private val userRepository: UserRepository
+) : GetAccountByIdUseCase {
+    override fun invoke(id: Int): Single<CurrencyAccount> =
+        userRepository.getAllAccounts()
+            .map { accounts ->
+                requireNotNull(accounts.firstOrNull { account -> account.id == id }) {
+                    "Cannot find account by given id - $id"
                 }
-    }
+            }
 }

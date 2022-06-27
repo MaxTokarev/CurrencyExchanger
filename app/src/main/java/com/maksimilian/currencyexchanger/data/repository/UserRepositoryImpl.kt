@@ -29,6 +29,9 @@ class UserRepositoryImpl @Inject constructor(
     override fun getAllAccounts(): Single<List<CurrencyAccount>> =
         localDataSource.getAllAccounts().map { mappersDataToDomain.mapList(it) }
 
+    override fun updateBalanceOnAccount(accountId: Int, newBalance: Double): Completable =
+        localDataSource.updateBalance(accountId, newBalance)
+
     private fun fetchUsersAndInsert(currencies: List<CurrencyData>): Completable =
         networkDataSource.fetchUserAccountsFor(currencies)
             .flatMapCompletable { localDataSource.upInsertAccounts(it) }

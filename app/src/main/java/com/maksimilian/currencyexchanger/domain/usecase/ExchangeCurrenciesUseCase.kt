@@ -1,27 +1,36 @@
 package com.maksimilian.currencyexchanger.domain.usecase
 
 import com.maksimilian.currencyexchanger.domain.repository.CurrencyRepository
+import com.maksimilian.currencyexchanger.domain.repository.UserRepository
 import com.maksimilian.currencyexchanger.domain.usecase.account.GetAccountByIdUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
 interface ExchangeCurrenciesUseCase {
-    operator fun invoke(fromAccount: Int, toAccount: Int, count: Double, rate: Double)
+    operator fun invoke(fromAccountId: Int, toAccountId: Int, count: Double): Single<Result<Unit>>
 
     class Base @Inject constructor(
         private val getAccountByIdUseCase: GetAccountByIdUseCase,
-        private val currencyRepository: CurrencyRepository
+        private val userRepository: UserRepository
     ) : ExchangeCurrenciesUseCase {
-        override operator fun invoke(
+        override fun invoke(
             fromAccountId: Int,
             toAccountId: Int,
-            count: Double,
-            rate: Double
-        ) = Unit
-//            getAccountByIdUseCase(fromAccountId)
-//            .zipWith(getAccountByIdUseCase(toAccountId)) { fromAccount, toAccount ->
-//                require(fromAccount.balance < count) { "count" }
-//
-//            }
+            count: Double
+        ): Single<Result<Unit>> {
+            return getAccountByIdUseCase(fromAccountId)
+                .zipWith(getAccountByIdUseCase(toAccountId)) { fromAccount, toAccount ->
+                    require(fromAccount.balance < count) { "count" }
+                    require(fromAccount.id != toAccount.id) { "id is equal" }
+                    fromAccount to toAccount
+                }
+                .flatMapCompletable { (fromAccount, toAccount) ->
+                    val newBalance = fromAccount.balance - count
+                    userRepository.updateBalanceOnAccount(fromAccount.id, newBalance)
+                        .andThen(userRepository.updateBalanceOnAccount(toAccountId, newBalance))
+                }
+                .andThen(Single.just(Result.success(Unit)))
+                .onErrorReturn { Result.failure(it) }
+        }
     }
 }

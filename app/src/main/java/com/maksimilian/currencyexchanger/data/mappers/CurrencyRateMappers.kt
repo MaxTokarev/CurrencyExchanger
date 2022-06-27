@@ -11,12 +11,15 @@ import com.maksimilian.currencyexchanger.data.network.model.CurrencyRateApiRespo
 import com.maksimilian.currencyexchanger.data.network.model.CurrencyRateData
 import com.maksimilian.currencyexchanger.data.network.model.CurrencyRatesData
 import com.maksimilian.currencyexchanger.data.network.source.account.AccountCurrency
-import com.maksimilian.currencyexchanger.data.network.source.account.AccountCurrency.*
 import com.maksimilian.currencyexchanger.data.network.source.account.AccountCurrency.Companion.id
+import com.maksimilian.currencyexchanger.data.network.source.account.AccountCurrency.EURO
+import com.maksimilian.currencyexchanger.data.network.source.account.AccountCurrency.POUND
+import com.maksimilian.currencyexchanger.data.network.source.account.AccountCurrency.RUB
+import com.maksimilian.currencyexchanger.data.network.source.account.AccountCurrency.US
 import com.maksimilian.currencyexchanger.domain.model.CurrencyRate
 import com.maksimilian.currencyexchanger.domain.model.CurrencyRates
-import kotlinx.datetime.Instant
 import javax.inject.Inject
+import kotlinx.datetime.Instant
 
 class CurrencyRatesMapperApiToData @Inject constructor() :
     Mapper<Pair<List<CurrencyData>, CurrencyRateApiResponse>, CurrencyRatesData> {

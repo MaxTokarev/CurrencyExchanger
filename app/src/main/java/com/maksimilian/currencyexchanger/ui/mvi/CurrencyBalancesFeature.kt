@@ -9,6 +9,7 @@ import com.maksimilian.currencyexchanger.common.mapList
 import com.maksimilian.currencyexchanger.domain.model.CurrencyAccount
 import com.maksimilian.currencyexchanger.domain.model.CurrencyRate
 import com.maksimilian.currencyexchanger.domain.model.CurrencyRates
+import com.maksimilian.currencyexchanger.domain.usecase.ExchangeCurrenciesUseCase
 import com.maksimilian.currencyexchanger.domain.usecase.ObserveCurrencyRatesUseCase
 import com.maksimilian.currencyexchanger.domain.usecase.account.CalculateRateUseCase
 import com.maksimilian.currencyexchanger.domain.usecase.account.observe.ObserveUserAccountsUseCase
@@ -21,17 +22,21 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class CurrencyBalancesFeature @Inject constructor(
-    bootstrapper: BootstrapperImpl
+    bootstrapper: BootstrapperImpl,
+    actor: ActorImpl,
 ) : ActorReducerFeature<Wish, Effect, State, News>(
     initialState = State(),
     reducer = ReducerImpl(),
-    actor = ActorImpl(),
+    actor = actor,
     newsPublisher = NewsPublisherImpl(),
     bootstrapper = bootstrapper
 ) {
 
     sealed class Effect {
         object StartLoading : Effect()
+        object StartExchangeLoading : Effect()
+        object SuccessExchange : Effect()
+        class FailExchange(val throwable: Throwable) : Effect()
         class LoadedData(val accounts: List<CurrencyAccountUi>, val rates: CurrencyRates) : Effect()
         class UpdateAccountsPosition(val fromAccount: Int, val toAccount: Int) : Effect()
         class UpdateAccountsCount(val fromAccount: Double, val toAccount: Double) : Effect()
@@ -40,10 +45,12 @@ class CurrencyBalancesFeature @Inject constructor(
 
     sealed class News {
         class Error(val throwable: Throwable) : News()
+        object SuccessExchange : News()
     }
 
     data class State(
         val isLoading: Boolean = false,
+        val isExchangeLoading: Boolean = false,
         val accounts: List<CurrencyAccountUi> = emptyList(),
         val fromAccountPosition: Int = 0,
         val toAccountPosition: Int = 1,
@@ -62,21 +69,24 @@ class CurrencyBalancesFeature @Inject constructor(
         class ToAccountCountUpdate(val value: String) : Wish()
         class Error(val throwable: Throwable) : Wish()
         class UpdateData(val accounts: List<CurrencyAccount>, val rates: CurrencyRates) : Wish()
+        object Exchange : Wish()
     }
 
     private class NewsPublisherImpl :
         NewsPublisher<Wish, Effect, State, News> {
         override fun invoke(wish: Wish, effect: Effect, state: State): News? = when (effect) {
             is Effect.ErrorLoading -> News.Error(effect.throwable)
+            is Effect.SuccessExchange -> News.SuccessExchange
             else -> null
         }
     }
 
-    private class ActorImpl : Actor<State, Wish, Effect> {
+    class ActorImpl @Inject constructor(
+        private val exchangeCurrenciesUseCase: ExchangeCurrenciesUseCase.Base
+    ) : Actor<State, Wish, Effect> {
         override fun invoke(state: State, wish: Wish): Observable<out Effect> = when (wish) {
             is Wish.UpdateData -> Observable.just(wish)
                 .map { CurrencyAccountMapperDomainToUi().mapList(it.accounts) }
-                .observeOn(AndroidSchedulers.mainThread())
                 .map { Effect.LoadedData(it, wish.rates) }
             is Wish.Error -> Observable.just(Effect.ErrorLoading(wish.throwable))
             is Wish.ToAccountPositionUpdate -> Observable.just(
@@ -86,11 +96,28 @@ class CurrencyBalancesFeature @Inject constructor(
                 Effect.UpdateAccountsPosition(wish.position, state.toAccountPosition)
             )
             is Wish.FromAccountCountUpdate -> Observable.just(
-                Effect.UpdateAccountsCount(fromAccount = wish.value.toDoubleOrNull()?: 0.0, toAccount = state.toAccountCount)
+                Effect.UpdateAccountsCount(
+                    fromAccount = wish.value.toDoubleOrNull() ?: 0.0,
+                    toAccount = state.toAccountCount
+                )
             )
             is Wish.ToAccountCountUpdate -> Observable.just(
-                Effect.UpdateAccountsCount(fromAccount = state.fromAccountCount, toAccount = wish.value.toDoubleOrNull()?: 0.0)
+                Effect.UpdateAccountsCount(
+                    fromAccount = state.fromAccountCount,
+                    toAccount = wish.value.toDoubleOrNull() ?: 0.0
+                )
             )
+            Wish.Exchange -> Observable.just(Effect.StartExchangeLoading)
+                .flatMapSingle {
+                    exchangeCurrenciesUseCase(
+                        state.accounts[state.fromAccountPosition].id,
+                        state.accounts[state.toAccountPosition].id,
+                        state.fromAccountCount
+                    )
+                }.map{exchangeResult ->
+                    exchangeResult.exceptionOrNull()?.let { Effect.FailExchange(it) }
+                    exchangeResult.getOrNull()?.let { Effect.SuccessExchange }
+                }
         }
     }
 
@@ -121,6 +148,9 @@ class CurrencyBalancesFeature @Inject constructor(
                             state.currentRate(state.toAccountPosition)
                         )
                 )
+                is Effect.FailExchange -> state.copy(isExchangeLoading = false)
+                Effect.StartExchangeLoading -> state.copy(isExchangeLoading = true)
+                Effect.SuccessExchange -> state.copy(isExchangeLoading = false)
             }
 
         private fun State.currentRate(position: Int) =

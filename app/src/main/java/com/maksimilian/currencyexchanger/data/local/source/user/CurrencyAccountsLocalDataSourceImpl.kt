@@ -24,4 +24,7 @@ class CurrencyAccountsLocalDataSourceImpl @Inject constructor(
 
     override fun observeAccounts(): Observable<List<CurrencyAccountData>> =
         currencyAccountDao.observeAllAccounts().map { mapperLocalToData.mapList(it) }
+
+    override fun updateBalance(accountId: Int, newBalance: Double): Completable =
+         currencyAccountDao.updateBalance(accountId, newBalance)
 }

@@ -2,6 +2,7 @@ package com.maksimilian.currencyexchanger.domain.repository
 
 import com.maksimilian.currencyexchanger.data.models.CurrencyData
 import com.maksimilian.currencyexchanger.data.network.model.CurrencyRatesData
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 

@@ -1,7 +1,7 @@
 package com.maksimilian.currencyexchanger.common
 
-interface Mapper<IN, OUT> {
-    fun map(data: IN): OUT
+interface Mapper<I, O> {
+    fun map(data: I): O
 }
 
-fun <IN, OUT> Mapper<IN, OUT>.mapList(data: List<IN>): List<OUT> = data.map { map(it) }
+fun <I, O> Mapper<I, O>.mapList(data: List<I>): List<O> = data.map { map(it) }

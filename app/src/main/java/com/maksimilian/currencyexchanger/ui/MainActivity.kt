@@ -75,7 +75,7 @@ class MainActivity : ObservableSourceActivity<UiEvent>(), Consumer<MainViewModel
                 onNext(UiEvent.ToAccountTextEntered(it.toString()))
             }
             btnExchange.setOnClickListener {
-                UiEvent.ExchangeClicked
+               onNext(UiEvent.ExchangeClicked)
             }
         }
     }

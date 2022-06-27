@@ -10,4 +10,6 @@ interface UserRepository {
     fun fetchIfRequireAccounts(currencies: List<CurrencyData>): Completable
     fun observeAccounts(): Observable<List<CurrencyAccount>>
     fun getAllAccounts(): Single<List<CurrencyAccount>>
+
+    fun updateBalanceOnAccount(accountId: Int, newBalance: Double): Completable
 }

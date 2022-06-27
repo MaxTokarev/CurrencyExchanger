@@ -17,4 +17,6 @@ interface CurrencyAccountsLocalDataSource {
      * Observes user accounts
      */
     fun observeAccounts(): Observable<List<CurrencyAccountData>>
+
+    fun updateBalance(accountId: Int, newBalance: Double): Completable
 }

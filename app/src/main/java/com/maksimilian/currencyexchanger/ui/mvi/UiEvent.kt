@@ -19,6 +19,7 @@ class UiEventTransformer : (UiEvent) -> CurrencyBalancesFeature.Wish? {
             CurrencyBalancesFeature.Wish.FromAccountCountUpdate(event.text)
         is UiEvent.ToAccountTextEntered ->
             CurrencyBalancesFeature.Wish.ToAccountCountUpdate(event.text)
+        is UiEvent.ExchangeClicked -> CurrencyBalancesFeature.Wish.Exchange
         else -> null
     }
 }
@@ -30,5 +31,4 @@ class UiEventTransformer2 : (UiEvent) -> ExchangeFeature.Wish? {
             is UiEvent.CurrentCurrency -> ExchangeFeature.Wish.CurrentCurrency(event.id)
             else -> null
         }
-
 }

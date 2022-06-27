@@ -9,4 +9,5 @@
     <string name="ph_account_name">Account - %1$s</string>
     <string name="err_input_is_empty">Input is empty</string>
     <string name="err_input_invalid">Input is invalid</string>
+    <string name="successful_exchange">Exchange is successful</string>
 </resources>
