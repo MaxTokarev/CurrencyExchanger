@@ -3,16 +3,17 @@ package com.maksimilian.currencyexchanger.ui.mvi
 import android.content.Context
 import android.widget.Toast
 import com.maksimilian.currencyexchanger.R
+import com.maksimilian.currencyexchanger.presentation.model.CurrencyBalancesNews
 import io.reactivex.functions.Consumer
 
 class NewsListener(
     private val context: Context
-) : Consumer<CurrencyBalancesFeature.News> {
+) : Consumer<CurrencyBalancesNews> {
 
-    override fun accept(news: CurrencyBalancesFeature.News) {
+    override fun accept(news: CurrencyBalancesNews) {
         when (news) {
-            is CurrencyBalancesFeature.News.Error -> errorHappened(news.throwable)
-            CurrencyBalancesFeature.News.SuccessExchange -> Toast.makeText(
+            is CurrencyBalancesNews.Error -> errorHappened(news.throwable)
+            CurrencyBalancesNews.SuccessExchange -> Toast.makeText(
                 context,
                 context.getString(R.string.successful_exchange),
                 Toast.LENGTH_SHORT

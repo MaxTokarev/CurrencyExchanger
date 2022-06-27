@@ -13,6 +13,7 @@ import com.maksimilian.currencyexchanger.common.ui.ObservableSourceActivity
 import com.maksimilian.currencyexchanger.databinding.ActivityMainBinding
 import com.maksimilian.currencyexchanger.databinding.LayoutAccountPagerBinding
 import com.maksimilian.currencyexchanger.di.injector
+import com.maksimilian.currencyexchanger.presentation.CurrencyBalancesFeature
 import com.maksimilian.currencyexchanger.ui.mvi.*
 import io.reactivex.functions.Consumer
 import javax.inject.Inject

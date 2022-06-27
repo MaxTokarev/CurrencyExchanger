@@ -1,25 +1,27 @@
 package com.maksimilian.currencyexchanger.ui.mvi
 
+import com.maksimilian.currencyexchanger.presentation.model.CurrencyBalancesWish
+
 sealed class UiEvent {
     class FromAccountScrolledTo(val position: Int) : UiEvent()
     class ToAccountScrolledTo(val position: Int) : UiEvent()
-    object ExchangeClicked: UiEvent()
+    object ExchangeClicked : UiEvent()
     class FromAccountTextEntered(val text: String) : UiEvent()
     class ToAccountTextEntered(val text: String) : UiEvent()
     class CurrentCurrency(val id: Int) : UiEvent()
 }
 
-class UiEventTransformer : (UiEvent) -> CurrencyBalancesFeature.Wish? {
-    override fun invoke(event: UiEvent): CurrencyBalancesFeature.Wish? = when (event) {
+class UiEventTransformer : (UiEvent) -> CurrencyBalancesWish? {
+    override fun invoke(event: UiEvent): CurrencyBalancesWish? = when (event) {
         is UiEvent.FromAccountScrolledTo ->
-            CurrencyBalancesFeature.Wish.FromAccountPositionUpdate(event.position)
+            CurrencyBalancesWish.FromAccountPositionUpdate(event.position)
         is UiEvent.ToAccountScrolledTo ->
-            CurrencyBalancesFeature.Wish.ToAccountPositionUpdate(event.position)
+            CurrencyBalancesWish.ToAccountPositionUpdate(event.position)
         is UiEvent.FromAccountTextEntered ->
-            CurrencyBalancesFeature.Wish.FromAccountCountUpdate(event.text)
+            CurrencyBalancesWish.FromAccountCountUpdate(event.text)
         is UiEvent.ToAccountTextEntered ->
-            CurrencyBalancesFeature.Wish.ToAccountCountUpdate(event.text)
-        is UiEvent.ExchangeClicked -> CurrencyBalancesFeature.Wish.Exchange
+            CurrencyBalancesWish.ToAccountCountUpdate(event.text)
+        is UiEvent.ExchangeClicked -> CurrencyBalancesWish.Exchange
         else -> null
     }
 }

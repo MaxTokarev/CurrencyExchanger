@@ -4,6 +4,7 @@ import com.badoo.binder.named
 import com.badoo.binder.using
 import com.badoo.mvicore.android.AndroidBindings
 import com.maksimilian.currencyexchanger.common.extensions.combineLatest
+import com.maksimilian.currencyexchanger.presentation.CurrencyBalancesFeature
 import com.maksimilian.currencyexchanger.ui.mvi.*
 
 class MainActivityBindings(
