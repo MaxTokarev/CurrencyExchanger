@@ -6,7 +6,7 @@ import com.maksimilian.currencyexchanger.domain.usecase.ExchangeCurrenciesUseCas
 import com.maksimilian.currencyexchanger.presentation.model.CurrencyBalancesEffect
 import com.maksimilian.currencyexchanger.presentation.model.CurrencyBalancesState
 import com.maksimilian.currencyexchanger.presentation.model.CurrencyBalancesWish
-import com.maksimilian.currencyexchanger.ui.mapper.CurrencyAccountMapperDomainToUi
+import com.maksimilian.currencyexchanger.presentation.mapper.CurrencyAccountMapperDomainToUi
 import io.reactivex.Observable
 import javax.inject.Inject
 

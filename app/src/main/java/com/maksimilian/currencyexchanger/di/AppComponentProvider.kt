@@ -1,9 +1,10 @@
 package com.maksimilian.currencyexchanger.di
 
-import android.app.Activity
+import androidx.fragment.app.Fragment
 
 interface AppComponentProvider {
     val appComponent: AppComponent
 }
 
-val Activity.injector: AppComponent get() = (application as AppComponentProvider).appComponent
+val Fragment.injector: AppComponent
+    get() = (requireActivity().application as AppComponentProvider).appComponent

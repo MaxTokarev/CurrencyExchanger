@@ -1,7 +1,7 @@
 package com.maksimilian.currencyexchanger.presentation.model
 
 import com.maksimilian.currencyexchanger.domain.model.CurrencyRates
-import com.maksimilian.currencyexchanger.ui.CurrencyAccountUi
+import com.maksimilian.currencyexchanger.ui.model.CurrencyAccountUi
 
 sealed class CurrencyBalancesEffect {
     object StartLoading : CurrencyBalancesEffect()

@@ -7,7 +7,6 @@ import com.maksimilian.currencyexchanger.presentation.model.CurrencyBalancesStat
 import com.maksimilian.currencyexchanger.presentation.model.CurrencyBalancesWish
 import javax.inject.Inject
 
-
 class CurrencyBalancesFeature @Inject constructor(
     bootstrapper: CurrencyBalancesBootstrapper,
     actor: CurrencyBalancesEffectActor,

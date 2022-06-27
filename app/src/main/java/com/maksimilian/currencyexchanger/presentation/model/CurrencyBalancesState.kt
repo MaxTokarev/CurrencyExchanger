@@ -1,7 +1,7 @@
 package com.maksimilian.currencyexchanger.presentation.model
 
 import com.maksimilian.currencyexchanger.domain.model.CurrencyRate
-import com.maksimilian.currencyexchanger.ui.CurrencyAccountUi
+import com.maksimilian.currencyexchanger.ui.model.CurrencyAccountUi
 
 data class CurrencyBalancesState(
     val isLoading: Boolean = false,

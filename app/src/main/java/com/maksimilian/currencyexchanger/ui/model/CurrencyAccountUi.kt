@@ -1,4 +1,4 @@
-package com.maksimilian.currencyexchanger.ui
+package com.maksimilian.currencyexchanger.ui.model
 
 data class CurrencyAccountUi(
     val id: Int,

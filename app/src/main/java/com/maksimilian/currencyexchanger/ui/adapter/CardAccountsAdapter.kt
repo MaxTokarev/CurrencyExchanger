@@ -1,4 +1,4 @@
-package com.maksimilian.currencyexchanger.ui
+package com.maksimilian.currencyexchanger.ui.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.maksimilian.currencyexchanger.R
 import com.maksimilian.currencyexchanger.common.extensions.layoutInflater
 import com.maksimilian.currencyexchanger.databinding.ItemAccountBinding
+import com.maksimilian.currencyexchanger.ui.model.CurrencyAccountUi
 
 class CardAccountsAdapter :
     ListAdapter<CurrencyAccountUi, CardAccountsAdapter.ViewHolder>(DiffCallback) {

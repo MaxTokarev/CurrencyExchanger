@@ -1,10 +1,10 @@
-package com.maksimilian.currencyexchanger.ui.mvi
+package com.maksimilian.currencyexchanger.ui.model
 
 import com.maksimilian.currencyexchanger.presentation.model.CurrencyBalancesState
-import com.maksimilian.currencyexchanger.ui.CurrencyAccountUi
+import com.maksimilian.currencyexchanger.ui.mvi.ExchangeFeature
 import kotlin.math.round
 
-class MainViewModel(
+class CurrencyExchangeViewModel(
     val isAccountsLoading: Boolean,
     val currentFromAccount: CurrencyAccountUi?,
     val currentToAccount: CurrencyAccountUi?,
@@ -16,10 +16,10 @@ class MainViewModel(
 )
 
 class ViewModelTransformer :
-        (Pair<CurrencyBalancesState, ExchangeFeature.State>) -> MainViewModel {
-    override fun invoke(pair: Pair<CurrencyBalancesState, ExchangeFeature.State>): MainViewModel {
+        (Pair<CurrencyBalancesState, ExchangeFeature.State>) -> CurrencyExchangeViewModel {
+    override fun invoke(pair: Pair<CurrencyBalancesState, ExchangeFeature.State>): CurrencyExchangeViewModel {
         val (currencyState, exchangeState) = pair
-        return MainViewModel(
+        return CurrencyExchangeViewModel(
             isAccountsLoading = currencyState.isLoading,
             accounts = currencyState.accounts,
             isExchangeLoading = exchangeState.isLoading,

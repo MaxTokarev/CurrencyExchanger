@@ -2,7 +2,7 @@ package com.maksimilian.currencyexchanger.di
 
 import android.app.Application
 import com.maksimilian.currencyexchanger.di.module.*
-import com.maksimilian.currencyexchanger.ui.MainActivity
+import com.maksimilian.currencyexchanger.ui.CurrencyExchangeFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -19,7 +19,7 @@ import javax.inject.Singleton
 )
 @Singleton
 interface AppComponent {
-    fun inject(activity: MainActivity)
+    fun inject(fragment: CurrencyExchangeFragment)
 
     @Component.Builder
     interface Builder {

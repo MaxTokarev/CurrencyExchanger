@@ -1,8 +1,8 @@
-package com.maksimilian.currencyexchanger.ui.mapper
+package com.maksimilian.currencyexchanger.presentation.mapper
 
 import com.maksimilian.currencyexchanger.common.Mapper
 import com.maksimilian.currencyexchanger.domain.model.CurrencyAccount
-import com.maksimilian.currencyexchanger.ui.CurrencyAccountUi
+import com.maksimilian.currencyexchanger.ui.model.CurrencyAccountUi
 
 class CurrencyAccountMapperDomainToUi : Mapper<CurrencyAccount, CurrencyAccountUi> {
     override fun map(data: CurrencyAccount): CurrencyAccountUi {

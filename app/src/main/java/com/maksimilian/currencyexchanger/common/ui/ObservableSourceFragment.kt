@@ -1,11 +1,13 @@
 package com.maksimilian.currencyexchanger.common.ui
 
-import androidx.activity.ComponentActivity
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
 import io.reactivex.ObservableSource
 import io.reactivex.Observer
 import io.reactivex.subjects.PublishSubject
 
-abstract class ObservableSourceActivity<T : Any> : ComponentActivity(), ObservableSource<T> {
+abstract class ObservableSourceFragment<T : Any>(@LayoutRes layoutId: Int) : Fragment(layoutId),
+    ObservableSource<T> {
 
     private val source = PublishSubject.create<T>()
 

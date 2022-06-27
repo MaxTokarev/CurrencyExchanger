@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:text="@string/app_title"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="@dimen/font_size_big"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/space_normal" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/space_normal" />
+
+        <include
+            android:id="@+id/includeFromAccount"
+            layout="@layout/layout_account_pager"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_normal"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+        <include
+            android:id="@+id/includeToAccount"
+            layout="@layout/layout_account_pager"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/includeFromAccount" />
+
+        <TextView
+            android:id="@+id/tvHintExchangeFrom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_normal"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:textSize="@dimen/font_size_medium"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/etFromAccount"
+            app:layout_constraintStart_toStartOf="@+id/etFromAccount"
+            app:layout_constraintTop_toBottomOf="@+id/includeToAccount"
+            tools:text="From account USD" />
+
+        <EditText
+            android:id="@+id/etFromAccount"
+            style="@style/Theme.CurrencyExchanger.EditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/space_small"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toStartOf="@+id/etToAccount"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/tvHintExchangeFrom"
+            tools:ignore="LabelFor" />
+
+        <TextView
+            android:id="@+id/tvHintExchangeTo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_normal"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:textSize="@dimen/font_size_medium"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/etToAccount"
+            app:layout_constraintStart_toStartOf="@+id/etToAccount"
+            app:layout_constraintTop_toBottomOf="@+id/includeToAccount"
+            tools:text="To account RUB" />
+
+        <EditText
+            android:id="@+id/etToAccount"
+            style="@style/Theme.CurrencyExchanger.EditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/space_small"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/etFromAccount"
+            app:layout_constraintTop_toBottomOf="@+id/tvHintExchangeTo"
+            tools:ignore="LabelFor" />
+
+        <TextView
+            android:id="@+id/tvCurrentCurrencyRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_normal"
+            android:textSize="@dimen/font_size_medium"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etFromAccount"
+            tools:text="Exchange by 123.32$" />
+
+        <Button
+            android:id="@+id/btnExchange"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_normal"
+            android:background="@drawable/ic_background_default_button"
+            android:text="@string/txt_exchange"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/tvCurrentCurrencyRate"
+            app:layout_constraintVertical_bias="0" />
+
+        <ProgressBar
+            android:id="@+id/pbLoadingExchange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/pbLoadingAccounts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/includeToAccount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/includeFromAccount" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
