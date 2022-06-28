@@ -11,8 +11,8 @@ import com.maksimilian.currencyexchanger.R
 import com.maksimilian.currencyexchanger.common.extensions.unsafeLazy
 import com.maksimilian.currencyexchanger.databinding.FragmentCurrencyExchangeBinding
 import com.maksimilian.currencyexchanger.databinding.LayoutAccountPagerBinding
-import com.maksimilian.currencyexchanger.ui.model.CurrencyExchangeViewModel
 import com.maksimilian.currencyexchanger.ui.adapter.CardAccountsAdapter
+import com.maksimilian.currencyexchanger.ui.model.CurrencyExchangeViewModel
 import com.maksimilian.currencyexchanger.ui.mvi.UiEvent
 
 class CurrencyExchangeUiFacade(
@@ -28,7 +28,7 @@ class CurrencyExchangeUiFacade(
     }
 
     init {
-       setupUI()
+        setupUI()
     }
 
     fun accept(vm: CurrencyExchangeViewModel) {
@@ -44,6 +44,8 @@ class CurrencyExchangeUiFacade(
                 R.string.ph_to_account_exchange,
                 vm.currentToAccount?.shortName
             )
+            includeFromAccount.pager.currentItem = vm.currentFromAccountPosition
+            includeToAccount.pager.currentItem = vm.currentToAccountPosition
             tvCurrentCurrencyRate.text = binding.root.context.getString(
                 R.string.ph_exchange_by,
                 vm.currencyRate
@@ -53,7 +55,7 @@ class CurrencyExchangeUiFacade(
         }
     }
 
-    private fun setupUI(){
+    private fun setupUI() {
         with(binding) {
             setupViewPager(includeFromAccount, fromCardAccountsAdapter) { position ->
                 UiEvent.FromAccountScrolledTo(position)

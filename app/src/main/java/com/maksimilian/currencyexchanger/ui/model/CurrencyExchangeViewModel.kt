@@ -8,6 +8,8 @@ class CurrencyExchangeViewModel(
     val isAccountsLoading: Boolean,
     val currentFromAccount: CurrencyAccountUi?,
     val currentToAccount: CurrencyAccountUi?,
+    val currentToAccountPosition: Int,
+    val currentFromAccountPosition: Int,
     val currencyRate: Double,
     val fromAccountCount: String,
     val toAccountCount: String,
@@ -31,11 +33,13 @@ class ViewModelTransformer :
             else currencyState.fromAccountCount.round(2).toString(),
             toAccountCount =
             if (currencyState.toAccountCount == 0.0) ""
-            else currencyState.toAccountCount.round(2).toString()
+            else currencyState.toAccountCount.round(2).toString(),
+            currentToAccountPosition = currencyState.toAccountPosition,
+            currentFromAccountPosition = currencyState.fromAccountPosition
         )
     }
 
-    fun Double.round(decimals: Int): Double {
+    private fun Double.round(decimals: Int): Double {
         var multiplier = 1.0
         repeat(decimals) { multiplier *= 10 }
         return round(this * multiplier) / multiplier

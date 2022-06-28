@@ -1,7 +1,11 @@
 package com.maksimilian.currencyexchanger.di.module
 
+import com.maksimilian.currencyexchanger.domain.usecase.ExchangeCurrenciesUseCase
+import com.maksimilian.currencyexchanger.domain.usecase.ExchangeCurrenciesUseCaseImpl
 import com.maksimilian.currencyexchanger.domain.usecase.ObserveCurrencyRatesUseCase
 import com.maksimilian.currencyexchanger.domain.usecase.ObserveCurrencyRatesUseCaseImpl
+import com.maksimilian.currencyexchanger.domain.usecase.account.CalculateRateUseCase
+import com.maksimilian.currencyexchanger.domain.usecase.account.CalculateRateUseCaseImpl
 import com.maksimilian.currencyexchanger.domain.usecase.account.GetAccountByIdUseCase
 import com.maksimilian.currencyexchanger.domain.usecase.account.GetAccountByIdUseCaseImpl
 import com.maksimilian.currencyexchanger.domain.usecase.account.fetch.FetchIfRequireUserAccountsUseCase
@@ -33,4 +37,12 @@ interface UseCaseModule {
     fun bindObserveCurrencyRatesUseCase(
         impl: ObserveCurrencyRatesUseCaseImpl
     ): ObserveCurrencyRatesUseCase
+
+    @Binds
+    fun bindCalculateRateUseCase(impl: CalculateRateUseCaseImpl): CalculateRateUseCase
+
+    @Binds
+    fun bindExchangeCurrenciesUseCase(
+        impl: ExchangeCurrenciesUseCaseImpl
+    ): ExchangeCurrenciesUseCase
 }

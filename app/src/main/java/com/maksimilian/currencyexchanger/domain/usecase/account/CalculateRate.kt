@@ -1,14 +1,11 @@
 package com.maksimilian.currencyexchanger.domain.usecase.account
 
-interface CalculateRateUseCase {
-    /**
-     * from / base * to
-     */
-    fun calculate(from: Double, to: Double): Double
+import javax.inject.Inject
 
-    class Base(private val count: Double): CalculateRateUseCase {
-        override fun calculate(from: Double, to: Double): Double {
-            return (count / from) * to
-        }
+interface CalculateRateUseCase : (Double, Double, Double) -> Double
+
+class CalculateRateUseCaseImpl @Inject constructor() : CalculateRateUseCase {
+    override fun invoke(count: Double, from: Double, to: Double): Double {
+        return (count / from) * to
     }
 }

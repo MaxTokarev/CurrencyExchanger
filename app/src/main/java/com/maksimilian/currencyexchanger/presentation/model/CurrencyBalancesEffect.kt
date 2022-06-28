@@ -8,8 +8,17 @@ sealed class CurrencyBalancesEffect {
     object StartExchangeLoading : CurrencyBalancesEffect()
     object SuccessExchange : CurrencyBalancesEffect()
     class FailExchange(val throwable: Throwable) : CurrencyBalancesEffect()
-    class LoadedData(val accounts: List<CurrencyAccountUi>, val rates: CurrencyRates) : CurrencyBalancesEffect()
-    class UpdateAccountsPosition(val fromAccount: Int, val toAccount: Int) : CurrencyBalancesEffect()
-    class UpdateAccountsCount(val fromAccount: Double, val toAccount: Double) : CurrencyBalancesEffect()
+    class LoadedData(val accounts: List<CurrencyAccountUi>, val rates: CurrencyRates) :
+        CurrencyBalancesEffect()
+
+    class UpdateAccountsPosition(
+        val fromAccount: Int,
+        val toAccount: Int,
+        val currentRate: Double
+    ) : CurrencyBalancesEffect()
+
+    class UpdateAccountsCount(val fromAccount: Double, val toAccount: Double) :
+        CurrencyBalancesEffect()
+
     class ErrorLoading(val throwable: Throwable) : CurrencyBalancesEffect()
 }
